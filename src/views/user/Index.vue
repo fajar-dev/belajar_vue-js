@@ -22,9 +22,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Mark</td>
-                  <td>Otto</td>
+                <tr v-for="item in items" :key="item.id">
+                  <td> {{ item.Name }}</td>
+                  <td>{{ item.Email }}</td>
                   <td>
                     <router-link :to="{name: 'user.edit', params:{id: 1}}" class="btn btn-warning">
                       Edit
@@ -40,8 +40,26 @@
   </div>
 
 </template> 
+
+
 <script>
+import axios from 'axios';
+
 export default {
-  
-}
+  name: 'Example',
+  data() {
+    return {
+      items: [],
+    };
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8000/api/user')
+      .then((response) => {
+        this.items = response.data.data;
+        // console.log(this.items.data);
+      });
+  },
+};
 </script>
+
+
